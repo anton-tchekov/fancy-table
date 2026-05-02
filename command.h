@@ -1,4 +1,3 @@
-static int step_delay_us = 800;
 
 bool parse_int(char *str, long *out)
 {
@@ -51,6 +50,7 @@ void process_token(char *buf)
 		}
 
 		step_delay_us = val;
+		Serial.printf("Set Step Delay to %d microseconds\n", step_delay_us);
 		return;
 	}
 
@@ -63,12 +63,14 @@ void process_token(char *buf)
 			return;
 		}
 
-		stepper_set_dir(BIT_Y_DIR, true);
+		Serial.printf("Moving Y Motor in Positive Direction for %d Steps\n", num_steps);
+
 		for(int i = 0; i < num_steps; ++i)
 		{
-			stepper_step(BIT_Y_STEP, step_delay_us);
-			delayMicroseconds(step_delay_us);
+			step_y(true);
 		}
+
+		return;
 	}
 
 	if(!strcmp(buf, "y-"))
@@ -80,12 +82,14 @@ void process_token(char *buf)
 			return;
 		}
 
-		stepper_set_dir(BIT_Y_DIR, false);
+		Serial.printf("Moving Y Motor in Negative Direction for %d Steps\n", num_steps);
+
 		for(int i = 0; i < num_steps; ++i)
 		{
-			stepper_step(BIT_Y_STEP, step_delay_us);
-			delayMicroseconds(step_delay_us);
+			step_y(false);
 		}
+
+		return;
 	}
 
 	if(!strcmp(buf, "x+"))
@@ -97,12 +101,14 @@ void process_token(char *buf)
 			return;
 		}
 
-		stepper_set_dir(BIT_X_DIR, true);
+		Serial.printf("Moving X Motor in Positive Direction for %d Steps\n", num_steps);
+
 		for(int i = 0; i < num_steps; ++i)
 		{
-			stepper_step(BIT_X_STEP, step_delay_us);
-			delayMicroseconds(step_delay_us);
+			step_x(true);
 		}
+
+		return;
 	}
 
 	if(!strcmp(buf, "x-"))
@@ -114,11 +120,13 @@ void process_token(char *buf)
 			return;
 		}
 
-		stepper_set_dir(BIT_X_DIR, false);
+		Serial.printf("Moving X Motor in Negative Direction for %d Steps\n", num_steps);
+
 		for(int i = 0; i < num_steps; ++i)
 		{
-			stepper_step(BIT_X_STEP, step_delay_us);
-			delayMicroseconds(step_delay_us);
+			step_x(false);
 		}
+
+		return;
 	}
 }

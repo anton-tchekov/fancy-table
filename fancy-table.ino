@@ -1,5 +1,6 @@
 #include "stepper.h"
 #include "stack.h"
+#include "movement.h"
 #include "command.h"
 #include <string.h>
 
@@ -8,7 +9,8 @@ void setup()
 	stepper_init();
 
 	Serial.begin(115200);
-	Serial.println("Hello World from MKS DLC32!\n");
+	delay(1000);
+	Serial.println("\n\n\nHello World from MKS DLC32!\n\n\n");
 }
 
 void loop()
