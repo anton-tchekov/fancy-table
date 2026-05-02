@@ -64,5 +64,5 @@ void stepper_set_dir(int stepper, bool dir)
 
 void stepper_step(int stepper, unsigned int delay)
 {
-	pulse_step(stepper, 800);
+	pulse_step(stepper, delay);
 }
