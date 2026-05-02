@@ -69,6 +69,13 @@ void process_token(char *buf)
 		return;
 	}
 
+	if(!strcmp(buf, "home"))
+	{
+		Serial.printf("Moving to center\n");
+		center();
+		return;
+	}
+
 	if(!strcmp(buf, "delay"))
 	{
 		long val = 0;

@@ -100,6 +100,16 @@ void set_zero(void)
 	cur_pos_y = 0;
 }
 
+double safe_div(int a, int b)
+{
+	if(b == 0)
+	{
+		return 0.0;
+	}
+
+	return a / (double)b;
+}
+
 void move_to(double angle, double radius)
 {
 	angle = fmod(angle, 2.0 * M_PI);
@@ -116,7 +126,7 @@ void move_to(double angle, double radius)
 
 	if(diff_y > MAX_Y_STEPS / 2)
 	{
-		diff_y = MAX_Y_STEPS - diff_y;
+		diff_y = diff_y - MAX_Y_STEPS;
 	}
 	else if(diff_y < -MAX_Y_STEPS / 2)
 	{
@@ -128,7 +138,7 @@ void move_to(double angle, double radius)
 
 	int max_steps = max(steps_x, steps_y);
 	bool x_main = (steps_x == max_steps);
-	double ratio = x_main ? (steps_y / (double)steps_x) : (steps_x / (double)steps_y);
+	double ratio = x_main ? safe_div(steps_y, steps_x) : safe_div(steps_x, steps_y);
 
 	int other_count = 0;
 	for(int i = 0; i < max_steps; ++i)
@@ -157,4 +167,14 @@ void move_to(double angle, double radius)
 			other_count ++;
 		}
 	}
+}
+
+void center(void)
+{
+	for(int i = 0; i < 7 * 1600; ++i)
+	{
+		step_x(false);
+	}
+
+	set_zero();
 }
